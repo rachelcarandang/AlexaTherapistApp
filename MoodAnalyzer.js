@@ -3,7 +3,7 @@
 const request = require('request');
 const Mood = require('./Mood');
 
-class SentimentAnalysis {
+class MoodAnalyzer {
 
   constructor() {
   }
@@ -45,4 +45,4 @@ class SentimentAnalysis {
   }
 };
 
-module.exports = SentimentAnalysis;
+module.exports = MoodAnalyzer;

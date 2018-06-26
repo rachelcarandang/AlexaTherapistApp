@@ -1,7 +1,7 @@
 'use strict';
 
 const alexaSkillKit = require('alexa-skill-kit')
-const SentimentAnalyzer = require('./SentimentAnalyzer');
+const MoodAnalyzer = require('./MoodAnalyzer');
 const Mood = require('./Mood');
 
 /**
@@ -9,54 +9,55 @@ const Mood = require('./Mood');
  * @param input The information Alexa received from the customer.
  */
 exports.handler = function (event, context) {
-  alexaSkillKit((event, context, input) => {
-    if (input.intent.name === 'MoodIntent') {
+  alexaSkillKit(event, context, input => {
+    const intentName = input.intent.name;
+    if (intentName === 'MoodIntent') {
       const phrase = input.intent.slots.phrase.value;
 
       console.log(`Received phrase: [ ${phrase} ]`);
-      const moodAnalyzer = new SentimentAnalyzer();
 
+      const moodAnalyzer = new MoodAnalyzer();
       return moodAnalyzer.getMood(phrase)
         .then(moodInfo => {
-          const response = getAlexaResponse(moodInfo.mood, moodInfo.score);
+          const response = createResponse(moodInfo.mood, moodInfo.score);
           return response;
         })
         .catch(error => function() {
           console.log('Error obtaining results: ' + error);
-          return 'How can I help';
+          return 'Sorry, I missed that.';
         });
+    } else {
+      return 'Mood Reader here to help.';
     }
-    // return fetchSomethingFromTheServer()
-    //   .then(result => doSomethingWithTheResult(result))
-    //   .then(processedResult => {
-    //     return `Here's an info from the server: ${processedResult}`
-    //   })
   });
 };
 
 /**
- * Return the response that Alexa will say, for example, 'Don't worry, it will be alright.'
+ * Create the response that Alexa will say, for example, 'Don't worry, it will be alright.'
  * @param mood - Mood.POSITIVE, Mood.NEGATIVE, or Mood.NEUTRAL
  * @param score - a whole number between 0 - 100 indicating how strong the mood is
  */
-function getAlexaResponse(mood, score) {
+function createResponse(mood, score) {
   if (mood === Mood.POSITIVE) {
-    return "What a positive statement!";
+    return `${mood} ${score} Yasss! That's awesome! Let's celebrate.`;
   } else if (mood === Mood.NEGATIVE) {
-    return "I'm sorry to hear that.";
+    return `${mood} ${score} I'm sorry to hear that. I hope things get better.`;
   } else {
-    return "Sounds complicated. Let's talk about it.";
+    return `${mood} ${score} Sounds complicated. Let's talk about it.`;
   }
 }
 
-// const moodAnalyzer = new SentimentAnalyzer();
-// const SAD = 'i had a bad day';
-// const HAPPY = 'i\'m doing great';
 //
-// const response = moodAnalyzer.getMood(HAPPY)
+// if you say something negative, alexa should say something nice, remove negative statment
+// for fun, play around with it
+
+// const moodAnalyzer = new MoodAnalyzer();
+// moodAnalyzer.getMood('i am so happy')
 //   .then(moodInfo => {
-//     const message = getAlexaResponse(moodInfo.mood, moodInfo.score);
-//     console.log('message ', message);
+//     const response = createResponse(moodInfo.mood, moodInfo.score);
+//     console.log(response);
 //   })
-//   .catch(error => console.log('Error obtaining results: ' + error));
-//
+//   .catch(error => function() {
+//     console.log('Error obtaining results: ' + error);
+//     return 'Sorry, I missed that.';
+//   });
