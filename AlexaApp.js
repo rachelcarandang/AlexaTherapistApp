@@ -10,27 +10,46 @@ const Mood = require('./Mood');
  */
 exports.handler = function (event, context) {
   alexaSkillKit(event, context, input => {
+
+    var defaultResponse = 'Mood Reader here to help.';
+    var inputIsValid = isInputValid(input);
+
+    if (!inputIsValid) {
+      return defaultResponse;
+    }
+
     const intentName = input.intent.name;
     if (intentName === 'MoodIntent') {
-      const phrase = input.intent.slots.phrase.value;
+      var phrase = input.intent.slots.phrase.value;
 
       console.log(`Received phrase: [ ${phrase} ]`);
 
-      const moodAnalyzer = new MoodAnalyzer();
+      var moodAnalyzer = new MoodAnalyzer();
       return moodAnalyzer.getMood(phrase)
         .then(moodInfo => {
-          const response = createResponse(moodInfo.mood, moodInfo.score);
+          var response = createResponse(moodInfo.mood, moodInfo.score);
+          console.log('Returning response: ' + response);
           return response;
         })
         .catch(error => function() {
           console.log('Error obtaining results: ' + error);
-          return 'Sorry, I missed that.';
+          return 'Sorry, could you try again?';
         });
     } else {
-      return 'Mood Reader here to help.';
+      return defaultResponse;
     }
   });
 };
+
+function isInputValid(input) {
+  if (input === null) {
+    return false;
+  } else if (input.intent === null) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 /**
  * Create the response that Alexa will say, for example, 'Don't worry, it will be alright.'
@@ -46,18 +65,3 @@ function createResponse(mood, score) {
     return `${mood} ${score} Sounds complicated. Let's talk about it.`;
   }
 }
-
-//
-// if you say something negative, alexa should say something nice, remove negative statment
-// for fun, play around with it
-
-// const moodAnalyzer = new MoodAnalyzer();
-// moodAnalyzer.getMood('i am so happy')
-//   .then(moodInfo => {
-//     const response = createResponse(moodInfo.mood, moodInfo.score);
-//     console.log(response);
-//   })
-//   .catch(error => function() {
-//     console.log('Error obtaining results: ' + error);
-//     return 'Sorry, I missed that.';
-//   });
