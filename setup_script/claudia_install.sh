@@ -1,7 +1,5 @@
 #!/bin/sh
 #download package
-git clone ssh://git.amazon.com/pkg/RcarandaMusicHackday2018
-cd RcarandaMusicHackday2018
 
 #install claudia
 echo "************************installing claudia***************************"
