@@ -1,8 +1,9 @@
 'use strict';
 
-const alexaSkillKit = require('alexa-skill-kit')
-const MoodAnalyzer = require('./MoodAnalyzer');
-const Mood = require('./Mood');
+var alexaSkillKit = require('alexa-skill-kit');
+var random = require('random-number');
+var MoodAnalyzer = require('./MoodAnalyzer');
+var Mood = require('./Mood');
 
 /**
  * This is the main function that runs whenever Alexa receives an input phrase from the customer.
@@ -51,14 +52,46 @@ function isInputValid(input) {
   }
 }
 
+var neutralResponses = [
+  'I feel that.',
+  'Wow how boring.',
+  'Can you show some emotion?'
+];
+
+/**
+* Return random number up between start and finish (including start and finish);
+* start: lowest number you can return
+* finish: highest number you can return
+*/
+function getRandomNumber(start, finish) {
+  var options = {
+    min:  start,
+    max:  finish,
+    integer: true
+  }
+  return random(options);
+} 
+
+function getRandomNeutralResponse() {
+  var number = getRandomNumber(1, 3);
+
+  return neutralResponses[number-1];
+}
+
+// function getRandomPositiveResponse() {
+//   // put code here
+// }
+
+// function getRandomNegativeResponse() {
+//   // put code here
+// }
+
 /**
  * Create the response that Alexa will say, for example, 'Don't worry, it will be alright.'
  * mood: indicates the user's mood, it can be Mood.POSITIVE, Mood.NEGATIVE, or Mood.NEUTRAL
  * score: a whole number between 0 - 100 indicating how strong the mood is
  */
 function createResponse(phrase, mood, score) {
-   return 'phrase is ' + phrase;
-
   if (mood === Mood.POSITIVE) {
     return "It sounds like you are happy.";
   } else {

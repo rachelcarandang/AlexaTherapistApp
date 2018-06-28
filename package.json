@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "alexa-skill-kit": "^1.0.0",
+    "random-number": "0.0.9",
     "request": "^2.87.0"
   },
   "devDependencies": {
