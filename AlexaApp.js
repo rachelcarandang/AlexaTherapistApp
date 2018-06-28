@@ -53,12 +53,12 @@ function isInputValid(input) {
 
 /**
  * Create the response that Alexa will say, for example, 'Don't worry, it will be alright.'
- * @param mood - Mood.POSITIVE, Mood.NEGATIVE, or Mood.NEUTRAL
- * @param score - a whole number between 0 - 100 indicating how strong the mood is
+ * mood: indicates the user's mood, it can be Mood.POSITIVE, Mood.NEGATIVE, or Mood.NEUTRAL
+ * score: a whole number between 0 - 100 indicating how strong the mood is
  */
 function createResponse(mood, score) {
   if (mood === Mood.POSITIVE) {
-    return `${mood} ${score} Yasss! That's fantastic! Let's celebrate.`;
+    return `${mood} ${score} Yasss! That's great! Let's celebrate.`;
   } else {
     return `${mood} ${score} Sounds complicated. Let's talk about it.`;
   }
