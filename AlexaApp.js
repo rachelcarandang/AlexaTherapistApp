@@ -11,7 +11,7 @@ const Mood = require('./Mood');
 exports.handler = function (event, context) {
   alexaSkillKit(event, context, input => {
 
-    var defaultResponse = 'Mood Reader here to help.';
+    var defaultResponse = 'Mood Sidekick here to help.';
     var inputIsValid = isInputValid(input);
 
     if (!inputIsValid) {
@@ -58,9 +58,7 @@ function isInputValid(input) {
  */
 function createResponse(mood, score) {
   if (mood === Mood.POSITIVE) {
-    return `${mood} ${score} Yasss! That's awesome! Let's celebrate.`;
-  } else if (mood === Mood.NEGATIVE) {
-    return `${mood} ${score} I'm sorry to hear that. I hope things get better.`;
+    return `${mood} ${score} Yasss! That's fantastic! Let's celebrate.`;
   } else {
     return `${mood} ${score} Sounds complicated. Let's talk about it.`;
   }
