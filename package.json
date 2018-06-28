@@ -11,5 +11,8 @@
   "dependencies": {
     "alexa-skill-kit": "^1.0.0",
     "request": "^2.87.0"
+  },
+  "devDependencies": {
+    "shelljs": "^0.8.2"
   }
 }
