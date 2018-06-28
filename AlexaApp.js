@@ -58,7 +58,7 @@ function isInputValid(input) {
  */
 function createResponse(mood, score) {
   if (mood === Mood.POSITIVE) {
-    return "Yasss! That's great! Let's celebrate.";
+    return "It sounds like you are happy.";
   } else {
     return "I don't know how to help you.";
   }
