@@ -27,7 +27,7 @@ exports.handler = function (event, context) {
       var moodAnalyzer = new MoodAnalyzer();
       return moodAnalyzer.getMood(phrase)
         .then(moodInfo => {
-          var response = createResponse(moodInfo.mood, moodInfo.score);
+          var response = createResponse(phrase, moodInfo.mood, moodInfo.score);
           console.log('Returning response: ' + response);
           return response;
         })
@@ -56,7 +56,9 @@ function isInputValid(input) {
  * mood: indicates the user's mood, it can be Mood.POSITIVE, Mood.NEGATIVE, or Mood.NEUTRAL
  * score: a whole number between 0 - 100 indicating how strong the mood is
  */
-function createResponse(mood, score) {
+function createResponse(phrase, mood, score) {
+   return 'phrase is ' + phrase;
+
   if (mood === Mood.POSITIVE) {
     return "It sounds like you are happy.";
   } else {
